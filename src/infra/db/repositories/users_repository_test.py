@@ -1,7 +1,7 @@
 import pytest
 from sqlalchemy import text
 from src.infra.db.settings.connection import DBConnectionHandler
-from .users_repository import UserRepository
+from .users_repository import UsersRepository
 
 db_connection_handler = DBConnectionHandler()
 connection = db_connection_handler.get_engine().connect()
@@ -12,7 +12,7 @@ def test_insert_user():
     mocked_last_name = 'last'
     mocked_age = 33
 
-    users_repository = UserRepository()
+    users_repository = UsersRepository()
     users_repository.insert_user(mocked_first_name, mocked_last_name, mocked_age)
 
     sql = '''
@@ -45,7 +45,7 @@ def test_select_user():
     connection.execute(text(sql))
     connection.commit()
 
-    user_repository = UserRepository()
+    user_repository = UsersRepository()
     response = user_repository.select_user(mocked_first_name)
 
     assert response[0].first_name == mocked_first_name
